@@ -1,3 +1,4 @@
+using System.Reflection;
 using Dima.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +11,7 @@ namespace Dima.Api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
-            
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
