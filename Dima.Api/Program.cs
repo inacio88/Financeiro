@@ -54,6 +54,16 @@ app.MapDelete("/v1/categories/{id}", async (long id, ICategoryHandler handler) =
 .Produces<Response<Category?>>()
 ;
 
+app.MapGet("/v1/categories", async (ICategoryHandler handler) =>
+    {
+        var request = new GetAllCategoriesRequest{ UserId = "inacioId"};
+        return await handler.GetAllAsync(request);
+    })
+.WithName("Categories: get all")
+.WithSummary("Retorna todas as categorias de um usuario categoria")
+.Produces<PagedResponse<List<Category>?>>()
+;
+
 app.MapGet("/v1/categories/{id}", async (long id, ICategoryHandler handler) =>
     {
         var request = new GetCategoryByIdRequest{ Id = id, UserId = "inacioId"};

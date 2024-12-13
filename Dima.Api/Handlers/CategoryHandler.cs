@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Handlers
 {
-    public class CategoryHandler(AppDbContext appDbContext) : ICategoryHandler
+    public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         public async Task<Response<Category?>> CreateAsync(CreateCategoryRequest request)
         {
@@ -20,8 +20,8 @@ namespace Dima.Api.Handlers
                     Descripition = request.Description
                 };
 
-                await appDbContext.Categories.AddAsync(category);
-                await appDbContext.SaveChangesAsync();
+                await context.Categories.AddAsync(category);
+                await context.SaveChangesAsync();
 
                 return new Response<Category>(category, 201, "Categoria criada com sucesso");
             }
@@ -38,7 +38,7 @@ namespace Dima.Api.Handlers
         {
             try
             {
-                var category = await appDbContext.Categories.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
                 if (category is null)
                     return new Response<Category?>(null, 404, "Categoria não encontrada");
@@ -46,8 +46,8 @@ namespace Dima.Api.Handlers
                 category.Title = request.Title;
                 category.Descripition = request.Description;
 
-                appDbContext.Categories.Update(category);
-                await appDbContext.SaveChangesAsync();
+                context.Categories.Update(category);
+                await context.SaveChangesAsync();
 
                 return new Response<Category?>(category, message: "Categoria atualizada com sucesso");
             }
@@ -62,14 +62,14 @@ namespace Dima.Api.Handlers
         {
             try
             {
-                var category = await appDbContext.Categories.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
                 if (category is null)
                     return new Response<Category?>(null, 404, "Categoria não encontrada");
 
-                appDbContext.Categories.Remove(category);
+                context.Categories.Remove(category);
 
-                await appDbContext.SaveChangesAsync();
+                await context.SaveChangesAsync();
 
                 return new Response<Category?>(category, message: "Categoria excluída com sucesso!");
             }
@@ -82,7 +82,7 @@ namespace Dima.Api.Handlers
         {
             try
             {
-                var category = await appDbContext.Categories
+                var category = await context.Categories
                                     .AsNoTracking()
                                     .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
@@ -96,9 +96,28 @@ namespace Dima.Api.Handlers
             }
         }
 
-        public Task<Response<List<Category>>> GetAllAsync(GetAllCategoriesRequest request)
+        public async Task<PagedResponse<List<Category>>> GetAllAsync(GetAllCategoriesRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = context.Categories
+                             .AsNoTracking()
+                             .Where(x => x.UserId == request.UserId)
+                             .OrderBy(x => x.Title);
+
+                var categories = await query
+                                .Skip(request.PageSize * (request.PageNumber - 1))
+                                .Take(request.PageSize) //25
+                                .ToListAsync();
+
+                var count = await query.CountAsync();
+
+                return new PagedResponse<List<Category>>(categories, count, request.PageNumber, request.PageSize);
+            }
+            catch (System.Exception)
+            {
+                return new PagedResponse<List<Category?>>(null, 500, "Não foi possível consultar as categorias");
+            }
         }
 
 
