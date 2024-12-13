@@ -78,16 +78,29 @@ namespace Dima.Api.Handlers
                 return new Response<Category?>(null, 500, "[FP079] Não foi possível alterar a categoria");
             }
         }
+        public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
+        {
+            try
+            {
+                var category = await appDbContext.Categories
+                                    .AsNoTracking()
+                                    .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+
+                return category is null
+                        ? new Response<Category?>(null, 404, "Não foi encontrada")
+                        : new Response<Category?>(category);
+            }
+            catch (System.Exception)
+            {
+                return new Response<Category?>(null, 500, "Não foi possível recuperar a categoria");
+            }
+        }
 
         public Task<Response<List<Category>>> GetAllAsync(GetAllCategoriesRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }
