@@ -9,7 +9,7 @@ namespace Dima.Api.EndPoints.Categories
     public class GetCategoryByIdEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
-            => app.MapPut("/{id}", HandleAsync)
+            => app.MapGet("/{id}", HandleAsync)
                 .WithName("Categories: Getbyid")
                 .WithSummary("Recupera uma nova categoria")
                 .WithDescription("Recupera uma nova categoria")
