@@ -21,7 +21,7 @@ namespace Dima.Api.EndPoints.Categories
 
         private static async Task<IResult> HandleAsync(ICategoryHandler handler, [FromQuery] int pageNumber = Configuration.DefaultPageNumber, [FromQuery] int pageSize = Configuration.DefaultPageSize)
         {
-            var request = new GetAllCategoriesRequest {UserId = "inacioId"};
+            var request = new GetAllCategoriesRequest {UserId = "inacioId", PageNumber = pageNumber, PageSize = pageSize};
             var result = await handler.GetAllAsync(request);
 
             if (result.IsSuccess)

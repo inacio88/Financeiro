@@ -1,5 +1,6 @@
 using Dima.Api.Common.Api;
 using Dima.Api.EndPoints.Categories;
+using Dima.Api.EndPoints.Transactions;
 
 namespace Dima.Api.EndPoints
 {
@@ -17,6 +18,15 @@ namespace Dima.Api.EndPoints
             .MapEndpoint<GetCategoryByIdEndpoint>()
             .MapEndpoint<GetAllCategoriesEndpoint>()
             ;
+            
+            endpoints.MapGroup("v1/transactions")
+                .WithTags("Transactions")
+                .MapEndpoint<CreateTransactionEndpoint>()
+                .MapEndpoint<UpdateTransactionEndpoint>()
+                .MapEndpoint<DeleteTransactionEndpoint>()
+                .MapEndpoint<GetTransactionByIdEndpoint>()
+                .MapEndpoint<GetTransactionsByPeriodEndpoint>()
+                ;
         
         }
 
