@@ -23,7 +23,7 @@ namespace Dima.Api.Handlers
                 await context.Categories.AddAsync(category);
                 await context.SaveChangesAsync();
 
-                return new Response<Category>(category, 201, "Categoria criada com sucesso");
+                return new Response<Category?>(category, 201, "Categoria criada com sucesso");
             }
             catch (Exception ex)
             {
@@ -114,9 +114,9 @@ namespace Dima.Api.Handlers
 
                 return new PagedResponse<List<Category>>(categories, count, request.PageNumber, request.PageSize);
             }
-            catch (System.Exception)
+            catch
             {
-                return new PagedResponse<List<Category?>>(null, 500, "Não foi possível consultar as categorias");
+                return new PagedResponse<List<Category>>(null, 500, "Não foi possível consultar as categorias");
             }
         }
 
