@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Dima.Api.Common.Api;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
@@ -18,12 +19,13 @@ namespace Dima.Api.EndPoints.Categories
                 ;
 
 
-        private static async Task<IResult> HandleAsync(ICategoryHandler handler,
+        private static async Task<IResult> HandleAsync(ClaimsPrincipal user, ICategoryHandler handler,
                                                         UpdateCategoryRequest request,
                                                         long id)
         {
+            var userName = user.Identity?.Name ?? string.Empty;
             request.Id = id;
-            request.UserId = "inacioId";
+            request.UserId = userName;
             var result = await handler.UpdateAsync(request);
 
             if (result.IsSuccess)

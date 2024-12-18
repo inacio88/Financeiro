@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Dima.Api.Common.Api;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
@@ -17,12 +18,13 @@ public class UpdateTransactionEndpoint : IEndpoint
     ;
 
 
-    private static async Task<IResult> HandleAsync(ITransactionHandler handler,
+    private static async Task<IResult> HandleAsync(ClaimsPrincipal user, ITransactionHandler handler,
         UpdateTransactionRequest request,
         long id)
     {
+        var userName = user.Identity?.Name ?? string.Empty;
         request.Id = id;
-        request.UserId = "inacioId";
+        request.UserId = userName;
         var result = await handler.UpdateAsync(request);
 
         if (result.IsSuccess)

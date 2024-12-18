@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Dima.Api.Common.Api;
 using Dima.Core;
 using Dima.Core.Handlers;
@@ -20,11 +21,12 @@ public class GetTransactionsByPeriodEndpoint : IEndpoint
             .Produces<PagedResponse<List<Transaction>?>>()
     ;
 
-    private static async Task<IResult> HandleAsync(ITransactionHandler handler,[FromQuery] DateTime? startDate = null,[FromQuery] DateTime? endDate = null, [FromQuery] int pageNumber = Configuration.DefaultPageNumber, [FromQuery] int pageSize = Configuration.DefaultPageSize)
+    private static async Task<IResult> HandleAsync(ClaimsPrincipal user, ITransactionHandler handler,[FromQuery] DateTime? startDate = null,[FromQuery] DateTime? endDate = null, [FromQuery] int pageNumber = Configuration.DefaultPageNumber, [FromQuery] int pageSize = Configuration.DefaultPageSize)
     {
+        var userName = user.Identity?.Name ?? string.Empty;
         var request = new GetTransacionsByPeriodRequest() 
             {
-                UserId = "inacioId", 
+                UserId = userName, 
                 PageSize = pageSize, 
                 PageNumber = pageNumber,
                 StartDate = startDate,
