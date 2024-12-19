@@ -1,6 +1,8 @@
 using Dima.Api.Common.Api;
 using Dima.Api.EndPoints.Categories;
+using Dima.Api.EndPoints.Identity;
 using Dima.Api.EndPoints.Transactions;
+using Dima.Api.Models;
 
 namespace Dima.Api.EndPoints
 {
@@ -10,16 +12,20 @@ namespace Dima.Api.EndPoints
         {
             var endpoints = app.MapGroup("");
 
+            endpoints.MapGroup("/")
+                .WithTags("Health check")
+                .MapGet("/", () => new { message = "OK" });
+
             endpoints.MapGroup("v1/categories")
-            .WithTags("Categories")
-            .RequireAuthorization()
-            .MapEndpoint<CreateCategoryEndpoint>()
-            .MapEndpoint<UpdateCategoryEndpoint>()
-            .MapEndpoint<DeleteCategoryEndpoint>()
-            .MapEndpoint<GetCategoryByIdEndpoint>()
-            .MapEndpoint<GetAllCategoriesEndpoint>()
-            ;
-            
+                .WithTags("Categories")
+                .RequireAuthorization()
+                .MapEndpoint<CreateCategoryEndpoint>()
+                .MapEndpoint<UpdateCategoryEndpoint>()
+                .MapEndpoint<DeleteCategoryEndpoint>()
+                .MapEndpoint<GetCategoryByIdEndpoint>()
+                .MapEndpoint<GetAllCategoriesEndpoint>()
+                ;
+
             endpoints.MapGroup("v1/transactions")
                 .WithTags("Transactions")
                 .RequireAuthorization()
@@ -29,7 +35,16 @@ namespace Dima.Api.EndPoints
                 .MapEndpoint<GetTransactionByIdEndpoint>()
                 .MapEndpoint<GetTransactionsByPeriodEndpoint>()
                 ;
-        
+
+            endpoints.MapGroup("v1/identity")
+                .WithTags("Identity")
+                .MapIdentityApi<User>();
+
+            endpoints.MapGroup("v1/identity")
+                .WithTags("Identity")
+                .MapEndpoint<LogoutEndpoint>()
+                .MapEndpoint<GetRolesEndpoint>();
+
         }
 
 
