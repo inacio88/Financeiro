@@ -20,7 +20,7 @@ if (app.Environment.IsDevelopment())
 app.UseSecurity();
 
 
-app.MapGet("/", () => new {message = "OK"});
+
 app.MapEndpoints();
 
 
