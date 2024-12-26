@@ -4,5 +4,6 @@ namespace Dima.Core.Models.Account
     {
         public string Email { get; set; } = string.Empty;
         public Dictionary<string,string> Claims { get; set; } = [];
+        public bool IsEmailConfirmed {get;set;}
     }
 }
