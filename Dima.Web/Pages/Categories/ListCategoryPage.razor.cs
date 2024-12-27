@@ -18,6 +18,8 @@ public partial class ListCategoryPage : ComponentBase
     public ISnackbar snackbar { get; set; } = null!;
     [Inject]
     public ICategoryHandler handler { get; set; } = null!;
+
+    public string SearchTerm { get; set; } = string.Empty;
     #endregion
     
     
@@ -42,6 +44,24 @@ public partial class ListCategoryPage : ComponentBase
             IsBusy = false;
         }
     }
+
+    #endregion
+    
+    #region Methods
+
+    public Func<Category, bool> Filter => cat =>
+    {
+        if (string.IsNullOrWhiteSpace(SearchTerm))
+            return true;
+        if (cat.Id.ToString().Contains(SearchTerm, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (cat.Title.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (cat.Descripition is not null && cat.Descripition.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase))
+            return true;
+        
+        return false;
+    };
 
     #endregion
 }
