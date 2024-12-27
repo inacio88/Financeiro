@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Components;
 using Dima.Core.Handlers;
 using Dima.Core.Requests.Account;
 using MudBlazor;
-using Microsoft.AspNetCore.Components.Authorization;
+using Dima.Web.Security;
 namespace Dima.Web.Pages.Identity
 {
     public partial class LoginPage : ComponentBase
     {
         [Inject]
-        public AuthenticationStateProvider authStateProvider { get; set; } = null!;
+        public ICookieAuthenticationStateProvider authStateProvider { get; set; } = null!;
         [Inject]
         public IAccountHandler handler { get; set; } = null!;
         [Inject]
@@ -40,6 +40,8 @@ namespace Dima.Web.Pages.Identity
                 if (result.IsSuccess)
                 {
                     snackbar.Add(result.Message, Severity.Success);
+                    await authStateProvider.GetAuthenticationStateAsync();
+                    authStateProvider.NotifyAuthenticationStateChanged();
                     navigationManager.NavigateTo("/");
                 }
                 else

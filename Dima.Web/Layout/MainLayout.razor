@@ -3,24 +3,34 @@
 <MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" Theme="Configuration.Theme" />
 <MudSnackbarProvider />
 
-<MudLayout>
-    <MudAppBar>
-        Dima
-        <MudSpacer />
-        <MudSwitch @bind-Value="@_isDarkMode" />
-    </MudAppBar>
-    <MudMainContent>
+<AuthorizeView>
+    <Authorized>
+        <MudLayout>
+            <MudAppBar>
+                Dima
+                <MudSpacer />
+                <MudText Typo="Typo.caption">
+                    @context.User.Identity?.Name
+                </MudText>
+                <MudSwitch @bind-Value="@_isDarkMode" />
+            </MudAppBar>
+            <MudMainContent>
 
-        <MudContainer>
+                <MudContainer>
 
-            @Body
+                    @Body
 
-        </MudContainer>
+                </MudContainer>
 
-    </MudMainContent>
+            </MudMainContent>
 
-</MudLayout>
+        </MudLayout>
 
+    </Authorized>
+    <NotAuthorized>
+        <LoginRedirect></LoginRedirect>
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     private bool _isDarkMode = true;
 
@@ -29,7 +39,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender)
+        if (firstRender)
         {
             _isDarkMode = await _mudThemeProvider.GetSystemPreference();
             await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);

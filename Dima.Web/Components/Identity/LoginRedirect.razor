@@ -1,0 +1,10 @@
+@inject NavigationManager navigationManager
+
+<h3>Redirecionando para obrigaório login....</h3>
+
+@code{
+    protected override void OnInitialized()
+    {
+        navigationManager.NavigateTo("/login");
+    }
+}

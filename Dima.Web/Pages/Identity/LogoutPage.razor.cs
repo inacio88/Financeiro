@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Dima.Core.Handlers;
 using MudBlazor;
-using Microsoft.AspNetCore.Components.Authorization;
 using Dima.Web.Security;
 namespace Dima.Web.Pages.Identity
 {
