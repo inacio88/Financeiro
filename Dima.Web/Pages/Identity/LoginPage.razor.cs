@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Components;
 using Dima.Core.Handlers;
 using Dima.Core.Requests.Account;
 using MudBlazor;
-using Dima.Web.Security;
+using Microsoft.AspNetCore.Components.Authorization;
 namespace Dima.Web.Pages.Identity
 {
     public partial class LoginPage : ComponentBase
     {
         [Inject]
-        public ICookieAuthenticationStateProvider authStateProvider { get; set; } = null!;
+        public AuthenticationStateProvider authStateProvider { get; set; } = null!;
         [Inject]
         public IAccountHandler handler { get; set; } = null!;
         [Inject]
