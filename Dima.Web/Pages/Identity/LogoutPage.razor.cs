@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Dima.Core.Handlers;
 using MudBlazor;
+using Microsoft.AspNetCore.Components.Authorization;
 using Dima.Web.Security;
 namespace Dima.Web.Pages.Identity
 {
@@ -19,6 +20,7 @@ namespace Dima.Web.Pages.Identity
         {
             if (await authStateProvider.CheckAuthenticatedAsync())
             {
+                System.Console.WriteLine("logouttttttttttt");
                 await handler.LogoutAsync();
                 await authStateProvider.GetAuthenticationStateAsync();
                 authStateProvider.NotifyAuthenticationStateChanged();

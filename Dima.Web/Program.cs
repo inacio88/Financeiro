@@ -14,9 +14,11 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<CookieHandler>();
-builder.Services.AddScoped<AuthenticationStateProvider, CookieAuthenticationStateProvider>();
 builder.Services.AddAuthorizationCore();
-builder.Services.AddScoped( x => (ICookieAuthenticationStateProvider) x.GetRequiredService<AuthenticationState>());
+builder.Services.AddScoped<AuthenticationStateProvider, CookieAuthenticationStateProvider>();
+builder.Services.AddScoped(x =>
+    (ICookieAuthenticationStateProvider)x.GetRequiredService<AuthenticationStateProvider>());
+
 builder.Services.AddMudServices();
 
 builder.Services.AddHttpClient(Configuration.HttpClientName, opt => 
