@@ -5,7 +5,7 @@ using MudBlazor;
 
 namespace Dima.Web.Pages.Categories;
 
-public class CreateCategoryPage : ComponentBase
+public partial class CreateCategoryPage : ComponentBase
 {
     #region Propriedades
     public bool IsBusy { get; set; } = false;
@@ -33,7 +33,7 @@ public class CreateCategoryPage : ComponentBase
             if (result.IsSuccess)
             {
                 snackBar.Add(result.Message, Severity.Success);
-                navigatiomManager.NavigateTo("/categories");
+                navigatiomManager.NavigateTo("/categorias");
             }
             else
             {
