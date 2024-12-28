@@ -11,6 +11,8 @@ public partial class ListCategoryPage : ComponentBase
     #region Propriedades
     public bool IsBusy { get; set; } = false;
     public List<Category> categories { get; set; } = [];
+    public string SearchTerm { get; set; } = string.Empty;
+
     #endregion
     
     #region Services
@@ -19,7 +21,8 @@ public partial class ListCategoryPage : ComponentBase
     [Inject]
     public ICategoryHandler handler { get; set; } = null!;
 
-    public string SearchTerm { get; set; } = string.Empty;
+    [Inject]
+    public IDialogService dialogService { get; set; } = null!;
     #endregion
     
     
@@ -27,13 +30,6 @@ public partial class ListCategoryPage : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        employees = new List<Employee>
-        {
-            new Employee("Sam", "CPA", 23, 87_000, 4),
-            new Employee("Alicia", "Product Manager", 11, 143_000, 5),
-            new Employee("Ira", "Developer", 4, 92_000, 3),
-            new Employee("John", "IT Director", 17, 229_000, 4),
-        };
         IsBusy = true;
         try
         {
@@ -70,14 +66,40 @@ public partial class ListCategoryPage : ComponentBase
         return false;
     };
 
+    public async void OnDeleteButtonClicked(long id, string title)
+    {
+        var result = await dialogService.ShowMessageBox("ATENÇÃO", 
+            $"Ao prosseguir a categoria '{title}' será excluída! Deseja continuar?",
+            yesText:"Excluir",
+            cancelText:"Cancelar");
+        if (result is true)
+            await OnDeleteAsync(id, title);
+        
+        StateHasChanged();
+    }
+
+    public async Task OnDeleteAsync(long id, string title)
+    {
+        try
+        {
+            await handler.DeleteAsync(new DeleteCategoryRequest { Id = id });
+            categories.RemoveAll(cat => cat.Id == id);
+            snackbar.Add($"Categoria '{title}' foi removida com sucesso!", Severity.Success);
+        }
+        catch (Exception e)
+        {
+            snackbar.Add(e.Message, Severity.Error);
+        }
+    }
+
+    public async void OnEditButtonClicked(long id, string title)
+    {
+        
+    }
+
     #endregion
     
     
-    
-    
-    
-    public record Employee(string Name, string Position, int YearsEmployed, int Salary, int Rating);
-    public IEnumerable<Employee> employees;
 
     
 }

@@ -47,7 +47,7 @@
                         Icon="@Icons.Material.Filled.Delete"
                         Color="Color.Error"
                         aria-label="Excluir"
-                        OnClick="() => { }">
+                        OnClick="() => OnDeleteButtonClicked(context.Item.Id, context.Item.Title)">
                     </MudIconButton>
                 </MudStack>
             </CellTemplate>
