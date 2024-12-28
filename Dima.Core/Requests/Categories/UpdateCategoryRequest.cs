@@ -9,6 +9,6 @@ namespace Dima.Core.Requests.Categories
         [MaxLength(80, ErrorMessage ="O título deve ter no máximo 80 caracteres")]
         public string Title { get; set; } = string.Empty;
         [Required(ErrorMessage ="Descição inválida")]
-        public string Description { get; set; }= string.Empty;
+        public string? Description { get; set; }
     }
 }

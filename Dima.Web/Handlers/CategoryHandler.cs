@@ -33,7 +33,7 @@ public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHa
 
     public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
     {
-        return await _clientHttp.GetFromJsonAsync<Response<Category?>>("v1/categories/{id}") ?? 
+        return await _clientHttp.GetFromJsonAsync<Response<Category?>>($"v1/categories/{request.Id}") ?? 
                new Response<Category?>(null,  400, "Não foi possível encontrar a categoria");
     }
 
