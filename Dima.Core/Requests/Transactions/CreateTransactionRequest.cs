@@ -7,8 +7,9 @@ namespace Dima.Core.Requests.Transactions
     {
         [Required(ErrorMessage = "Título inválido")]
         public string Title { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "Tipo inválido")]
-        public ETransactionType Type { get; set; }
+        public ETransactionType Type { get; set; } = ETransactionType.Withdraw;
         [Required(ErrorMessage = "Quantidade inválido")]
         public decimal Amount { get; set; }
         [Required(ErrorMessage = "Categoria inválido")]

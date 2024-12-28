@@ -17,8 +17,20 @@
                       Format="C"
                       Variant="Variant.Text"
                       HelperText="Informe o valor que será pago ou recebido"
-                      @bind-Value="InpupModel.Amount"
+                      @bind-Value="@InpupModel.Amount"
                       For="() => InpupModel.Amount" />
+        
+        <MudDatePicker
+            Label="Quando?"
+            @bind-Date="InpupModel.PaidOrReceivedAt"
+            HelperText="Selecione a data que o valor será pago ou recebido"/>
+        
+        <MudSelect T="ETransactionType" Label="Tipo de movimentação"
+                   AnchorOrigin="Origin.BottomCenter"
+                   @bind-Value="InpupModel.Type">
+            <MudSelectItem T="ETransactionType" Value="ETransactionType.Deposit">Entrada</MudSelectItem>
+            <MudSelectItem T="ETransactionType" Value="ETransactionType.Withdraw">Saída</MudSelectItem>
+        </MudSelect>
     </EditForm>
 
 </MudPaper>
