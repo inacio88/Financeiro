@@ -13,31 +13,42 @@
     </MudButton>
 </div>
 
-<MudDataGrid Class="pt-4 mt-3"
-             Items="@categories"
-             Filterable="true"
-             QuickFilter="Filter"
-             Hideable="true">
+<MudDataGrid
+    Class="mt-4"
+    Items="@categories"
+    Filterable="true"
+    QuickFilter="Filter"
+    Hideable="true">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Categorias</MudText>
-        <MudSpacer />
-        <MudTextField @bind-Value="SearchTerm" 
-                      Placeholder="Filtrar..." 
-                      Adornment="Adornment.Start" 
-                      AdornmentIcon="@Icons.Material.Filled.Search"
-                      Immediate="true"
-                      IconSize="Size.Medium"
-                      Class="mt-0"></MudTextField>
+        <MudSpacer/>
+        <MudTextField
+            @bind-Value="SearchTerm"
+            Placeholder="Filtrar..."
+            Adornment="Adornment.Start"
+            AdornmentIcon="@Icons.Material.Filled.Search"
+            Immediate="true"
+            IconSize="Size.Medium"
+            Class="mt-0">
+        </MudTextField>
     </ToolBarContent>
     <Columns>
-        <PropertyColumn Property="x => x.Id" Title="Código"/>
+        <PropertyColumn Property="x => x.Id" Title="#"/>
         <PropertyColumn Property="x => x.Title" Title="Categoria"/>
-        <PropertyColumn Title="Opções"/>
-        <TemplateColumn Class="d-flex justify-end">
+        <TemplateColumn CellClass="d-flex justify-end">
             <CellTemplate>
                 <MudStack Row>
-                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Href="@($"/categorias/editar/{context.Item.Id}")" Color="Color.Primary">Editar</MudIconButton>
-                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" aria-label="Excluir" OnClick="() => { }">Excluir</MudIconButton>
+                    <MudIconButton
+                        Icon="@Icons.Material.Filled.Edit"
+                        Href="@($"/categorias/editar/{context.Item.Id}")"
+                        Color="Color.Primary">
+                    </MudIconButton>
+                    <MudIconButton
+                        Icon="@Icons.Material.Filled.Delete"
+                        Color="Color.Error"
+                        aria-label="Excluir"
+                        OnClick="() => { }">
+                    </MudIconButton>
                 </MudStack>
             </CellTemplate>
         </TemplateColumn>
