@@ -3,7 +3,38 @@
 
 
 <PageTitle>Lançamentos</PageTitle>
+<MudText Typo="Typo.h3">Lançamentos</MudText>
+<div class="d-flex justify-end mt-4 mb-4">
+    <MudSelect T="int" Label="Mês"
+               @bind-Value="CurrentMonth"
+               AnchorOrigin="Origin.BottomCenter"
+               Class="mr-4">
+        @for (var month = 1; month <= 12; month++)
+        {
+            var date = new DateTime(DateTime.Now.Year, month, 1);
+            <MudSelectItem T="int" Value="@month">
+                @(date.ToString("MMMM"))
+            </MudSelectItem>
+        }
 
+    </MudSelect>
+    <MudSelect T="int" Label="Ano" 
+               @bind-Value="@CurrentYear" 
+               AnchorOrigin="Origin.BottomCenter">
+        @foreach (var y in Years)
+        {
+            <MudSelectItem T="int" Value="@y"> @y </MudSelectItem>
+        }
+    </MudSelect>
+    <MudSpacer/>
+    <MudButton Variant="Variant.Filled" 
+               Color="Color.Primary" 
+               StartIcon="@Icons.Material.TwoTone.Search"
+               OnClick="() => { }"
+               Size="Size.Small">
+        Pesquisar
+    </MudButton>
+</div>
 <MudDataGrid
     Items="transactions"
     Filterable="true"
