@@ -87,7 +87,7 @@ public partial class ListTransactionPage : ComponentBase
                || transaction.Title.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase);
     };
 
-    public async void OnDeleteButtonClicked(long id, string title)
+    public async void OnDeleteButtonClickedAsync(long id, string title)
     {
         var result = await dialogService.ShowMessageBox("Atenção",
             $"Ao prosseguir o lançamento {title} será excluído",
