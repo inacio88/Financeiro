@@ -1,5 +1,6 @@
 using Dima.Api.Data;
 using Dima.Core.Common.Extensions;
+using Dima.Core.Enums;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Transactions;
@@ -12,6 +13,10 @@ namespace Dima.Api.Handlers
     {
         public async Task<Response<Transaction?>> CreateAsync(CreateTransactionRequest request)
         {
+            if (request is {Type: ETransactionType.Withdraw, Amount: >= 0})
+            {
+                request.Amount *= -1;
+            }
             try
             {
                 var transaction = new Transaction
@@ -38,6 +43,10 @@ namespace Dima.Api.Handlers
         
         public async Task<Response<Transaction?>> UpdateAsync(UpdateTransactionRequest request)
         {
+            if (request is {Type: ETransactionType.Withdraw, Amount: >= 0})
+            {
+                request.Amount *= -1;
+            }
             try
             {
                 var transaction = await context.Transactions
