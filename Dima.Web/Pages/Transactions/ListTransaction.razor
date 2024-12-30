@@ -18,7 +18,7 @@
                 @(date.ToString("MMMM"))
             </MudSelectItem>
         }
-    </MudSelect>
+    </MudSelect> 
     <MudSelect T="int"
                Label="Ano"
                @bind-Value="@CurrentYear"
@@ -36,7 +36,7 @@
         Variant="Variant.Filled"
         Color="Color.Primary"
         StartIcon="@Icons.Material.TwoTone.Search"
-        OnClick="() => { }">
+        OnClick="OnSearchAsync">
         PESQUISAR
     </MudButton>
 </div>

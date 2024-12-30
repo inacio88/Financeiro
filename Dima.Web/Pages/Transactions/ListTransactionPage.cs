@@ -44,14 +44,14 @@ public partial class ListTransactionPage : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        await GetTransactions();
+        await GetTransactionsAsync();
     }
 
     #endregion
     
     #region Methods
 
-    private async Task GetTransactions()
+    private async Task GetTransactionsAsync()
     {
         IsBusy = true;
         try
@@ -125,6 +125,12 @@ public partial class ListTransactionPage : ComponentBase
             IsBusy = false;
         }
         
+    }
+
+    public async Task OnSearchAsync()
+    {
+        await GetTransactionsAsync();
+        StateHasChanged();
     }
 
     #endregion
