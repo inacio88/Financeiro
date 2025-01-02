@@ -8,9 +8,12 @@ namespace Dima.Api.EndPoints.Reports;
 
 public class GetIncomesAndExpensesEndpoint : IEndpoint
 {
-    private static async Task<IResult> HandleAsync(ClaimsPrincipal user, GetIncomesAndExpensesRequest request, IReportHandler handler)
+    private static async Task<IResult> HandleAsync(ClaimsPrincipal user, IReportHandler handler)
     {
-        request.UserId = user.Identity?.Name ?? string.Empty;
+        GetIncomesAndExpensesRequest request = new()
+        {
+            UserId = user.Identity?.Name ?? string.Empty
+        };
         var result = await handler.GetIncomesAndExpensesReportAsync(request);
         
         return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);

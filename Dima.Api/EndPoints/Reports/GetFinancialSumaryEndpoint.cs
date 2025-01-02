@@ -9,9 +9,12 @@ namespace Dima.Api.EndPoints.Reports;
 
 public class GetFinancialSumaryEndpoint: IEndpoint
 {
-    private static async Task<IResult> HandleAsync(ClaimsPrincipal user, GetFinancialSummaryRequest request, IReportHandler handler)
+    private static async Task<IResult> HandleAsync(ClaimsPrincipal user, IReportHandler handler)
     {
-        request.UserId = user.Identity?.Name ?? string.Empty;
+        GetFinancialSummaryRequest request = new()
+        {
+            UserId = user.Identity?.Name ?? string.Empty
+        };
         var result = await handler.GetFinancialSummaryReportAsync(request);
         
         return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);

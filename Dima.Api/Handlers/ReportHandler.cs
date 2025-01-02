@@ -69,26 +69,31 @@ public class ReportHandler(AppDbContext context) : IReportHandler
 
     public async Task<Response<FinancialSummary?>> GetFinancialSummaryReportAsync(GetFinancialSummaryRequest request)
     {
+        var startDate = new DateTime(2024, DateTime.Now.Month, 1);
         try
         {
-            var startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-            var data = await context.Transactions.AsNoTracking()
-                    .Where(x => 
-                                x.UserId == request.UserId
-                                && x.PaidOrReceivedAt >= startDate
-                                && x.PaidOrReceivedAt <= DateTime.Now)
-                    .GroupBy(x => true)
-                    .Select(x => 
-                        new FinancialSummary(request.UserId, 
-                            x.Where(i => i.Type == ETransactionType.Deposit).Sum(t => t.Amount),
-                            x.Where(i => i.Type == ETransactionType.Withdraw).Sum(t => t.Amount)))
-                    .FirstOrDefaultAsync()
-                    ;
+            var data = await context
+                .Transactions
+                .AsNoTracking()
+                .Where(
+                    x => x.UserId == request.UserId
+                         && x.PaidOrReceivedAt >= startDate
+                         && x.PaidOrReceivedAt <= DateTime.Now
+                )
+                .GroupBy(x => 1)
+                .Select(x => new FinancialSummary(
+                    request.UserId,
+                    x.Where(ty => ty.Type == ETransactionType.Deposit).Sum(t => t.Amount),
+                    x.Where(ty => ty.Type == ETransactionType.Withdraw).Sum(t => t.Amount))
+                )
+                .FirstOrDefaultAsync();
+
             return new Response<FinancialSummary?>(data);
         }
         catch
         {
-            return new Response<FinancialSummary?>(null, 500, "Error ao obter FinancialSummary");
+            return new Response<FinancialSummary?>(null, 500,
+                "Não foi possível obter o resultado financeiro");
         }
     }
 }

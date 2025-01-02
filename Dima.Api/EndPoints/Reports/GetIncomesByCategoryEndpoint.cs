@@ -9,9 +9,12 @@ namespace Dima.Api.EndPoints.Reports;
 
 public class GetIncomesByCategoryEndpoint : IEndpoint
 {
-    private static async Task<IResult> HandleAsync(ClaimsPrincipal user, GetIncomesByCategoryRequest request, IReportHandler handler)
+    private static async Task<IResult> HandleAsync(ClaimsPrincipal user, IReportHandler handler)
     {
-        request.UserId = user.Identity?.Name ?? string.Empty;
+        GetIncomesByCategoryRequest request = new()
+        {
+            UserId = user.Identity?.Name ?? string.Empty
+        };
         var result = await handler.GetIncomesByCategoryReportAsync(request);
         
         return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);

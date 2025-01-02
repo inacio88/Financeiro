@@ -5,7 +5,7 @@ SELECT
     [Transaction].[UserId],
     [Category].[Title] as [Category],
     YEAR([Transaction].[PaidOrReceivedAt]) as [Year],
-    SUM([Transaction].[Amount]) as [Expenses]
+    SUM([Transaction].[Amount]) as [Incomes]
 FROM [Transaction]
     INNER JOIN [Category] ON [Transaction].[CategoryId] = [Category].[Id]
 WHERE
