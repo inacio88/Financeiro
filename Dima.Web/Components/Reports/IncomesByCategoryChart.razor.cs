@@ -32,7 +32,7 @@ public partial class IncomesByCategoryComponent : ComponentBase
         {
             var request = new GetIncomesByCategoryRequest();
             var result = await handler.GetIncomesByCategoryReportAsync(request);
-            if (result.IsSuccess || result.Data is null)
+            if (!result.IsSuccess || result.Data is null)
             {
                 snackbar.Add("Falha ao obter dados", Severity.Error);
                 return;

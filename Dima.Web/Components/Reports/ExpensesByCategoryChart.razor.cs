@@ -32,7 +32,7 @@ public partial class ExpensesByCategoryChartComponent : ComponentBase
         {
             var request = new GetExpensesByCategoryRequest();
             var result = await handler.GetExpensesByCategoryReportAsync(request);
-            if (result.IsSuccess || result.Data is null)
+            if (!result.IsSuccess || result.Data is null)
             {
                 snackbar.Add("Falha ao obter dados", Severity.Error);
                 return;
