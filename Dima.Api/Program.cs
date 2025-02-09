@@ -35,6 +35,7 @@ app.UseStaticFiles(new StaticFileOptions
 
 // Blazor WebAssembly requer suporte a Service Workers
 app.UseBlazorFrameworkFiles(); 
+//app.MapFallbackToFile("index.html");
 app.UseCors(ApiConfiguration.CorsPolicyName);
 app.UseSecurity();
 app.MapEndpoints();

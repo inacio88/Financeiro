@@ -17,6 +17,8 @@ namespace Dima.Api.Common.Api
 
             Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") ?? string.Empty;
             Configuration.FrontendUrl = builder.Configuration.GetValue<string>("FrontendUrl") ?? string.Empty;
+            System.Console.WriteLine(Configuration.BackendUrl);
+            System.Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
 
         }
 
@@ -57,7 +59,10 @@ namespace Dima.Api.Common.Api
             builder.Services.AddCors(options => 
                 options.AddPolicy(
                     ApiConfiguration.CorsPolicyName,
-                    policy => policy.WithOrigins([Configuration.BackendUrl, Configuration.FrontendUrl])
+                    policy => policy.WithOrigins(
+                        Configuration.BackendUrl.TrimEnd('/'),  // Remove barra final, se existir
+                    Configuration.FrontendUrl.TrimEnd('/')
+                    )
                                 .AllowAnyMethod()
                                 .AllowAnyHeader()
                                 .AllowCredentials()

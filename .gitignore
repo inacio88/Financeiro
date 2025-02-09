@@ -6,6 +6,9 @@
 # dotenv files
 .env
 Dima.Api/wwwroot/
+Dima.Api/Dima.Web.staticwebassets.endpoints.json
+Dima.Api/emcc-props.json
+Dima.Api/web.config
 # User-specific files
 *.rsuser
 *.suo
